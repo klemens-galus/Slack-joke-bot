@@ -34,7 +34,7 @@ app.command('/joke', async ({ command, ack, say }) => {
           blagues.categories.BEAUF
         ]
       });
-      await say(`There is a joke for you <@${command.user_name}> \n  ${blague}`);
+      await say(`There is a joke for you <@${command.user_name}> \n  ${blague.joke} \n\n\n ${blague.answer}`);
       break;
   } 
 
