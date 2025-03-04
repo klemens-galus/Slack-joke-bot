@@ -17,9 +17,14 @@ const app = new App({
 // });
 
 app.command('/echo', async ({ command, ack, say }) => {
-    // Acknowledge command request
-    await ack();
-    await say(`Hey <@${command.user_name}>}`);
+    // Only run if DEV is true
+    if (process.env.DEV === "true") {
+      // Acknowledge command request
+      await ack();
+      await say(`Hey <@${command.user_name}>}`);
+    } else {
+      await ack();
+    }
   });
 
   
