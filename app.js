@@ -5,28 +5,25 @@ const app = new App({
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: true,
   appToken: process.env.SLACK_APP_TOKEN,
-  // Socket Mode doesn't listen on a port, but in case you want your app to respond to OAuth,
-  // you still need to listen on some port!
+
   port: process.env.PORT || 3000
 });
 
-// Listens to incoming messages that contain "hello"
-// app.message('hello', async ({ message, say }) => {
-//   // say() sends a message to the channel where the event was triggered
-//   await say(`Hey there <@${message.user}>!`);
-// });
-
 app.command('/echo', async ({ command, ack, say }) => {
     // Only run if DEV is true
-    if (process.env.DEV === "true") {
-      // Acknowledge command request
-      await ack();
-      await say(`Hey <@${command.user_name}>}`);
-    } else {
-      await ack();
-    }
-  });
+  if (process.env.DEV === "true") {
+    await ack();
+    await say(`Hey <@${command.user_name}>`);
+  } else {
+    await ack();
+  }
+});
 
+app.command('/joke', async ({ command, ack, say }) => {
+  await ack();
+  await say(`There is a joke for you <@${command.user_name}> \n  ${command.text}`);
+
+});
   
 
 (async () => {
