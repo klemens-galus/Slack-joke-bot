@@ -11,10 +11,10 @@ const app = new App({
 });
 
 // Listens to incoming messages that contain "hello"
-app.message('hello', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  await say(`Hey there <@${message.user}>!`);
-});
+// app.message('hello', async ({ message, say }) => {
+//   // say() sends a message to the channel where the event was triggered
+//   await say(`Hey there <@${message.user}>!`);
+// });
 
 app.command('/echo', async ({ command, ack, say }) => {
     // Acknowledge command request
@@ -22,6 +22,7 @@ app.command('/echo', async ({ command, ack, say }) => {
     await say(`Hey <@${command.user_name}>}`);
   });
 
+  
 
 (async () => {
   // Start your app
