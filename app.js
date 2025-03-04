@@ -19,7 +19,7 @@ app.message('hello', async ({ message, say }) => {
 app.command('/echo', async ({ command, ack, say }) => {
     // Acknowledge command request
     await ack();
-    await say(`A joke for <@${command.user_name}> ${command.text}`);
+    await say(`Hey <@${command.user_name}>}`);
   });
 
 
