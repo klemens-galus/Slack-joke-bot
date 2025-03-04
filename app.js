@@ -48,6 +48,6 @@ app.command('/joke', async ({ command, ack, say }) => {
   // Start your app
   await app.start();
 
-  app.logger.info('⚡️ Bolt app is running!');
+  app.logger.info(`⚡️ Bolt app is running! with env dev at ${process.env.DEV}`);
 })();
 
