@@ -1,4 +1,5 @@
 const { App } = require('@slack/bolt');
+const BlaguesAPI = require('blagues-api');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
@@ -8,6 +9,8 @@ const app = new App({
 
   port: process.env.PORT || 3000
 });
+const blagues = new BlaguesAPI(process.env.BLAGUES_API_TOKEN);
+
 
 app.command('/echo', async ({ command, ack, say }) => {
     // Only run if DEV is true
@@ -21,7 +24,21 @@ app.command('/echo', async ({ command, ack, say }) => {
 
 app.command('/joke', async ({ command, ack, say }) => {
   await ack();
-  await say(`There is a joke for you <@${command.user_name}> \n  ${command.text}`);
+  switch(command.text.split(" ")[0]){
+    default: 
+      const blague = await blagues.random({
+        disallow: [
+          blagues.categories.DARK,
+          blagues.categories.LIMIT,
+          blagues.categories.BLONDES,
+          blagues.categories.BEAUF
+        ]
+      });
+      await say(`There is a joke for you <@${command.user_name}> \n  ${blague}`);
+      break;
+  } 
+
+  
 
 });
   
