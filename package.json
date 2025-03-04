@@ -1,0 +1,22 @@
+{
+  "name": "slack-joke-bot",
+  "version": "1.0.0",
+  "description": "Slack bot to make joke",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/klemens-galus/Slack-joke-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/klemens-galus/Slack-joke-bot/issues"
+  },
+  "homepage": "https://github.com/klemens-galus/Slack-joke-bot#readme",
+  "dependencies": {
+    "@slack/bolt": "^4.2.1"
+  }
+}
