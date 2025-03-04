@@ -11,7 +11,6 @@ const app = new App({
 });
 const blagues = new BlaguesAPI(process.env.BLAGUES_API_TOKEN);
 
-
 app.command('/echo', async ({ command, ack, say }) => {
     // Only run if DEV is true
   if (process.env.DEV === "true") {
@@ -39,17 +38,12 @@ async function genrateJoke(cat) {
   });
 }
 
-
 app.command('/joke', async ({ command, ack, say }) => {
   await ack();
   const blague = await genrateJoke(command.text.split(" ")[0])
   await say(`Une blague générée par <@${command.user_name}> \n${blague.joke} \n\n\n~${blague.answer}~`);
-
-  
-
 });
   
-
 (async () => {
   // Start your app
   await app.start();
