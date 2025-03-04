@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/klemens-galus/Slack-joke-bot#readme",
   "dependencies": {
-    "@slack/bolt": "^4.2.1"
+    "@slack/bolt": "^4.2.1",
+    "blagues-api": "^2.1.1"
   }
 }

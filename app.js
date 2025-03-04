@@ -1,28 +1,49 @@
 const { App } = require('@slack/bolt');
+const BlaguesAPI = require('blagues-api');
 
 const app = new App({
   token: process.env.SLACK_BOT_TOKEN,
   signingSecret: process.env.SLACK_SIGNING_SECRET,
   socketMode: true,
   appToken: process.env.SLACK_APP_TOKEN,
-  // Socket Mode doesn't listen on a port, but in case you want your app to respond to OAuth,
-  // you still need to listen on some port!
+
   port: process.env.PORT || 3000
 });
-
-// Listens to incoming messages that contain "hello"
-app.message('hello', async ({ message, say }) => {
-  // say() sends a message to the channel where the event was triggered
-  await say(`Hey there <@${message.user}>!`);
-});
+const blagues = new BlaguesAPI(process.env.BLAGUES_API_TOKEN);
 
 app.command('/echo', async ({ command, ack, say }) => {
-    // Acknowledge command request
+    // Only run if DEV is true
+  if (process.env.DEV === "true") {
     await ack();
-    await say(`A joke for <@${command.user_name}> ${command.text}`);
+    await say(`Hey <@${command.user_name}>`);
+  } else {
+    await ack();
+  }
+});
+
+async function genrateJoke(cat) {
+  const upperCategory = cat?.toUpperCase();
+  const validCat = ['DEV','DARK','LIMIT','BEAUF','BLONDES'];
+
+  if (validCat.includes(upperCategory)) {
+    return await blagues.randomCategorized(blagues.categories[upperCategory]);
+  }
+  return blague = await blagues.random({
+    disallow: [
+      blagues.categories.DARK,
+      blagues.categories.LIMIT,
+      blagues.categories.BLONDES,
+      blagues.categories.BEAUF
+    ]
   });
+}
 
-
+app.command('/joke', async ({ command, ack, say }) => {
+  await ack();
+  const blague = await genrateJoke(command.text.split(" ")[0])
+  await say(`Une blague générée par <@${command.user_name}> \n${blague.joke} \n\n\n~${blague.answer}~`);
+});
+  
 (async () => {
   // Start your app
   await app.start();
