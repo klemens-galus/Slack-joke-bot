@@ -22,21 +22,28 @@ app.command('/echo', async ({ command, ack, say }) => {
   }
 });
 
+async function genrateJoke(cat) {
+  const upperCategory = cat?.toUpperCase();
+  const validCat = ['DEV','DARK','LIMIT','BEAUF','BLONDES'];
+
+  if (validCat.includes(upperCategory)) {
+    return await blagues.randomCategorized(blagues.categories[upperCategory]);
+  }
+  return blague = await blagues.random({
+    disallow: [
+      blagues.categories.DARK,
+      blagues.categories.LIMIT,
+      blagues.categories.BLONDES,
+      blagues.categories.BEAUF
+    ]
+  });
+}
+
+
 app.command('/joke', async ({ command, ack, say }) => {
   await ack();
-  switch(command.text.split(" ")[0]){
-    default: 
-      const blague = await blagues.random({
-        disallow: [
-          blagues.categories.DARK,
-          blagues.categories.LIMIT,
-          blagues.categories.BLONDES,
-          blagues.categories.BEAUF
-        ]
-      });
-      await say(`Une blague pour <@${command.user_name}> \n${blague.joke} \n\n\n~${blague.answer}~`);
-      break;
-  } 
+  const blague = await genrateJoke(command.text.split(" ")[0])
+  await say(`Une blague générée par <@${command.user_name}> \n${blague.joke} \n\n\n~${blague.answer}~`);
 
   
 
