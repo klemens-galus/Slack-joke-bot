@@ -38,7 +38,7 @@ async function genrateJoke(cat) {
   });
 }
 
-app.command('/joke', async ({ command, ack, say }) => {
+app.command(process.env.DEV === "true" ? '/joke-dev' : '/joke', async ({ command, ack, say }) => {
   await ack();
   const blague = await genrateJoke(command.text.split(" ")[0])
   await say(`Une blague générée par <@${command.user_name}> \n${blague.joke} \n\n\n~${blague.answer}~`);
